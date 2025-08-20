@@ -3,7 +3,7 @@ services:
   app:
     build: .
     container_name: nestjs-app
-    
+    command: npm run start:dev
     ports:
       - "8001:8001"
     env_file:
@@ -24,9 +24,19 @@ services:
       - postgres
       - redis
       - minio
+    develop:
+      watch:
+        - action: sync
+          path: ./src
+          target: /app/src
+          ignore:
+            - node_modules/
+            - dist/
+        - action: rebuild
+          path: ./package.json
     volumes:
-      - .:/app
-      - /app/node_modules
+      - .:/app:cached               
+      - /app/node_modules   
 
   postgres:
     image: postgres:16
