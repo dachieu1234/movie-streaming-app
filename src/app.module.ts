@@ -10,8 +10,9 @@ import { UsersModule } from "./users/users.module";
 import { MoviesModule } from "./movies/movies.module";
 import { AdsModule } from "./ads/ads.module";
 import { InsightsModule } from "./insights/insights.module";
-import { UploadModule } from "./upload/upload.module";
+import { UploadModule } from "./media/media.module";
 import { MinioService } from "./minio/minio.service";
+import { TypeOrmLogger } from "common/logger/typeorm-logger";
 
 @Module({
   imports: [
@@ -25,7 +26,8 @@ import { MinioService } from "./minio/minio.service";
         password: process.env.DB_PASS,
         database: process.env.DB_NAME,
         autoLoadEntities: true,
-        synchronize: false, // use migrations
+        synchronize: false,
+        logger: new TypeOrmLogger(), 
       }),
     }),
     CacheModule.registerAsync({

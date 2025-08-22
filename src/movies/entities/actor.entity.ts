@@ -15,4 +15,10 @@ export class Actor {
 
   @Column("text", { nullable: true })
   photo_url: string;
+
+  @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
+  created_at: Date;
+
+  @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
+  updated_at: Date;
 }

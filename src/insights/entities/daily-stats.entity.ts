@@ -22,4 +22,10 @@ export class DailyStats {
  
   @Column({ type: "int", nullable: true }) 
   top_movie_id: number;
+
+  @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
+  created_at: Date;
+
+  @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
+  updated_at: Date;
 }

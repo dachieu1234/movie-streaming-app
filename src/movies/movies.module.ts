@@ -9,7 +9,6 @@ import { MovieGenre } from "./entities/movie-genre.entity";
 import { Actor } from "./entities/actor.entity";
 import { MovieActor } from "./entities/movie-actor.entity";
 import { Season } from "./entities/season.entity";
-import { Episode } from "./entities/episode.entity";
 import { VideoSource } from "./entities/video-source.entity";
 import { Subtitle } from "./entities/subtitle.entity";
 
@@ -23,7 +22,6 @@ import { Subtitle } from "./entities/subtitle.entity";
       Actor,
       MovieActor,
       Season,
-      Episode,
       VideoSource,
       Subtitle,
     ]),

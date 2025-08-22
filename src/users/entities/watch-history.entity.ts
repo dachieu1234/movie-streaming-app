@@ -7,15 +7,21 @@ export class WatchHistory {
   @Column() 
   user_id: number;
   
-  @Column({ nullable: true }) 
+  @Column({ nullable: false }) 
   movie_id: number;
   
-  @Column({ nullable: true }) 
+  @Column() 
   episode_id: number;
   
   @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
   watched_at: Date;
  
-  @Column({ type: "float", nullable: true }) 
+  @Column({ type: "float" }) 
   progress: number;
+
+  @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
+  created_at: Date;
+
+  @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
+  updated_at: Date;
 }

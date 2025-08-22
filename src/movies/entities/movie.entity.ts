@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from "typeorm";
 @Entity("movies")
 export class Movie {
   @PrimaryGeneratedColumn() 
@@ -31,11 +31,8 @@ export class Movie {
   @Column({ type: "int", nullable: true }) 
   country_id: number;
 
-  @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
-  created_at: Date;
-
-  @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
-  updated_at: Date;
+  @CreateDateColumn() created_at: Date;
+  @UpdateDateColumn() updated_at: Date;
 }
 
 

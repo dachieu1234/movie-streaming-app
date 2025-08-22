@@ -1,24 +1,30 @@
 import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+
+export type Role = 'admin' | 'user'; 
+
 @Entity("users")
 export class User {
-  @PrimaryGeneratedColumn() 
+  @PrimaryGeneratedColumn('increment')
   id: number;
   
-  @Column({ unique: true }) 
+  @Column({ unique: true, nullable: false }) 
   username: string;
   
-  @Column({ unique: true }) 
+  @Column({ unique: true, nullable: false }) 
   email: string;
   
-  @Column("text") 
+  @Column("text", { nullable: false })  
   password_hash: string;
   
-  @Column({ default: "user" }) 
-  role: string; // admin | user
+  @Column({ type: 'text', default: 'user', nullable: false })
+  role: string;
   
   @Column("text", { nullable: true }) 
   avatar_url: string;
   
   @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
   created_at: Date;
+
+  @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
+  updated_at: Date;
 }
