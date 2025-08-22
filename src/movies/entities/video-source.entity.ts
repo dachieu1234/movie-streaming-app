@@ -1,42 +1,48 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, OneToMany } from "typeorm";
+import { Movie } from "./movie.entity";
+import { Season } from "./season.entity";
+import { Subtitle } from "./subtitle.entity";
+import { WatchHistory } from "../../users/entities/watch-history.entity";
 @Entity("video_sources")
 export class VideoSource {
-  @PrimaryGeneratedColumn() 
+  @PrimaryGeneratedColumn()
   id: number;
-  
-  @Column({ nullable: false }) 
-  movie_id: number;
 
-  @Column() 
-  season_id: number;
-  
-  @Column() 
+  @Column({ type: "varchar" })
   quality: string;
-  
-  @Column() 
+
+  @Column({ type: "varchar" })
   language: string;
-  
-  @Column("text") 
+
+  @Column({ type: "text" })
   url: string;
 
-  @Column() 
+  @Column({ type: "int", nullable: true })
   episode_number: number;
-  
-  @Column({ nullable: true }) 
-  title: string;
-  
-  @Column("text", { nullable: true }) 
-  description: string;
-  
-  @Column({ type: "int", nullable: true }) 
+
+  @Column({ type: "int", nullable: true })
   duration: number;
-  
-  @Column({ type: "date", nullable: true }) 
-  release_date: string;
 
-  @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
-  created_at: Date;
+  @Column({ type: "varchar", nullable: true })
+  title: string;
 
-  @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
-  updated_at: Date;
+  @Column({ type: "text", nullable: true })
+  description: string;
+
+  @Column({ type: "date", nullable: true })
+  release_date: Date;
+
+  @ManyToOne(() => Movie, (m) => m.videoSources, { onDelete: "CASCADE" })
+  @JoinColumn({ name: "movie_id" })
+  movie: Movie;
+
+  @ManyToOne(() => Season, (s) => s.videoSources, { onDelete: "CASCADE" })
+  @JoinColumn({ name: "season_id" })
+  season: Season;
+
+  @OneToMany(() => Subtitle, (st) => st.videoSource, { cascade: true })
+  subTitles: Subtitle[];
+
+  @OneToMany(() => WatchHistory, (wh) => wh.videoSource)
+  watchHistories: WatchHistory[];
 }

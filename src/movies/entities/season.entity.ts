@@ -1,24 +1,24 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, OneToMany } from "typeorm";
+import { Movie } from "./movie.entity";
+import { VideoSource } from "./video-source.entity";
 @Entity("seasons")
 export class Season {
-  @PrimaryGeneratedColumn() 
+  @PrimaryGeneratedColumn()
   id: number;
-  
-  @Column() 
-  movie_id: number;
-  
-  @Column() 
+
+  @Column({ type: "int" })
   season_number: number;
-  
-  @Column({ nullable: true }) 
+
+  @Column({ type: "varchar", nullable: true })
   title: string;
-  
-  @Column("text", { nullable: true })
+
+  @Column({ type: "text", nullable: true })
   description: string;
 
-  @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
-  created_at: Date;
+  @ManyToOne(() => Movie, (m) => m.seasons, { onDelete: "CASCADE" })
+  @JoinColumn({ name: "movie_id" })
+  movie: Movie;
 
-  @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
-  updated_at: Date;
+  @OneToMany(() => VideoSource, (vs) => vs.season, { cascade: true })
+  videoSources: VideoSource[];
 }

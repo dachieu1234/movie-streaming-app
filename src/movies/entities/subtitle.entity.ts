@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from "typeorm";
+import { VideoSource } from "./video-source.entity";
 @Entity("subtitles")
 export class Subtitle {
   @PrimaryGeneratedColumn()
@@ -7,15 +8,13 @@ export class Subtitle {
   @Column({ nullable: false })
   video_source_id: number;
   
+  @ManyToOne(() => VideoSource, (vs) => vs.subTitles, { onDelete: "CASCADE" })
+  @JoinColumn({ name: "video_source_id" })
+  videoSource: VideoSource;
+
   @Column({ nullable: false }) 
   language: string;
   
   @Column("text") 
   url: string;
-
-  @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
-  created_at: Date;
-
-  @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
-  updated_at: Date;
 }

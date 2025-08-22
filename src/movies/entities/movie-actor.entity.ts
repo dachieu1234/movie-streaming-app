@@ -1,18 +1,21 @@
-import { Entity, PrimaryColumn, Column } from "typeorm";
+// movie_actors.entity.ts
+import { Entity, Column, ManyToOne, PrimaryColumn, JoinColumn } from "typeorm";
+import { Movie } from "./movie.entity";
+import { Actor } from "./actor.entity";
+
 @Entity("movie_actors")
 export class MovieActor {
-  @PrimaryColumn() 
+  @PrimaryColumn()
   movie_id: number;
-  
-  @PrimaryColumn() 
-  actor_id: number;
-  
-  @Column({ nullable: true }) 
-  role: string;
 
-  @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
-  created_at: Date;
+  @PrimaryColumn()
+  actor_id: number;  
 
-  @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
-  updated_at: Date;
+  @ManyToOne(() => Movie, (m) => m.movieActors, { onDelete: "CASCADE" })
+  @JoinColumn({ name: "movie_id" })
+  movie: Movie;
+
+  @ManyToOne(() => Actor, (a) => a.movieActors, { onDelete: "CASCADE" })
+  @JoinColumn({ name: "actor_id" })
+  actor: Actor;
 }

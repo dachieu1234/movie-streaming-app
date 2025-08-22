@@ -1,4 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
+import { Review } from "./review.entity";
+import { WatchHistory } from "./watch-history.entity";
 
 export type Role = 'admin' | 'user'; 
 
@@ -22,6 +24,12 @@ export class User {
   @Column("text", { nullable: true }) 
   avatar_url: string;
   
+  @OneToMany(() => Review, (r) => r.user)
+  reviews: Review[];
+
+  @OneToMany(() => WatchHistory, (wh) => wh.user)
+  watchHistories: WatchHistory[];
+
   @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
   created_at: Date;
 

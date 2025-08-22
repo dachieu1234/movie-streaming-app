@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany } from "typeorm";
+import { MovieActor } from "./movie-actor.entity";
 @Entity("actors")
 export class Actor {
   @PrimaryGeneratedColumn()
@@ -16,9 +17,13 @@ export class Actor {
   @Column("text", { nullable: true })
   photo_url: string;
 
-  @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
+  @CreateDateColumn()
   created_at: Date;
 
-  @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
+  @UpdateDateColumn()
   updated_at: Date;
+
+  @OneToMany(() => MovieActor, (ma) => ma.actor)
+  movieActors: MovieActor[];
+
 }

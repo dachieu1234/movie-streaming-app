@@ -1,15 +1,20 @@
-import { Column, Entity, PrimaryColumn } from "typeorm";
+import { Entity, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm";
+import { Movie } from "./movie.entity";
+import { Genre } from "./genre.entity";
+
 @Entity("movie_genres")
 export class MovieGenre {
-  @PrimaryColumn() 
+  @PrimaryColumn()
   movie_id: number;
-  
-  @PrimaryColumn() 
-  genre_id: number;
 
-  @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
-  created_at: Date;
+  @PrimaryColumn()
+  genre_id: number;  
 
-  @Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
-  updated_at: Date;
+  @ManyToOne(() => Movie, (m) => m.movieGenres, { onDelete: "CASCADE" })
+  @JoinColumn({ name: "movie_id" })
+  movie: Movie;
+
+  @ManyToOne(() => Genre, (g) => g.movieGenres, { onDelete: "CASCADE" })
+  @JoinColumn({ name: "genre_id" })
+  genre: Genre;
 }
