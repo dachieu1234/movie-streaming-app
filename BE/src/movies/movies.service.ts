@@ -51,10 +51,32 @@ export class MoviesService {
         return await this.movieRepo.save(movie);
     }
 
-
-
-    findAll() {
-        return this.movieRepo.find();
+    async findAll(page = 1, limit = 10) {
+        const [items, total] = await this.movieRepo.findAndCount({
+            relations: [
+                "country",
+                "movieGenres.genre",
+                "movieActors.actor",
+                "seasons",
+                "seasons.videoSources",
+                "seasons.videoSources.subTitles",
+                "videoSources",
+                "videoSources.subTitles",
+            ],
+            skip: (page - 1) * limit,
+            take: limit,
+            order: { created_at: "DESC" },
+        });
+    
+        return {
+            data: items,
+            meta: {
+                total,
+                page,
+                limit,
+                totalPages: Math.ceil(total / limit),
+            },
+        };
     }
 
     findOne(id: number) {
