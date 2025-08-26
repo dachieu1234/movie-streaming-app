@@ -94,7 +94,7 @@ export default function Header() {
               alt="ShinTV Logo"
               width={150}
               height={50}
-              className="w-auto max-h-[24px] lg:max-h-[36px] object-contain"
+              className="w-auto max-h-[24px] lg:max-h-[40px] object-contain"
             />
           </Link>
         </div>
